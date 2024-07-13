@@ -1,0 +1,92 @@
+<template>
+  <q-page class="q-pa-md dark" >
+    <q-card class="bug-report-card">
+      <q-card-section>
+        <div class="text-h5" style="text-align:center;font-weight:bolder;">Bug Details</div>
+      </q-card-section>
+      
+      <q-card-section>
+        <q-input outlined v-model="bugTitle" label="Bug Title" class="q-mb-md" dense />
+        <q-input outlined v-model="bugDescription" label="Bug Description" class="q-mb-md" type="textarea" rows="5" dense />
+        <q-btn style="background:#6c63ff;border-radius:5rem;color:#fff;" label="Submit Bug Report" class="full-width q-mb-md" @click="submitBugReport" :loading="loading" />
+      </q-card-section>
+    </q-card>
+  </q-page>
+</template>
+
+<script>
+import { useBugStore } from '../stores/bugStore';
+
+export default {
+  data() {
+    return {
+      bugTitle: '',
+      bugDescription: '',
+      loading: false,
+    };
+  },
+  methods: {
+    submitBugReport() {
+      // Assuming bug data structure; generate a unique ID for each bug
+      const newBug = {
+        id: Math.random().toString(36).substr(2, 9), // Example of generating a unique ID
+        title: this.bugTitle,
+        description: this.bugDescription,
+        reportedBy: 'Tester', // Replace with actual user info if available
+        status: 'reported', // Initial status
+        createdAt: new Date(),
+      };
+
+      // Accessing the Pinia store
+      const bugStore = useBugStore();
+
+      // Add bug to store
+      bugStore.addBug(newBug);
+      console.log(bugStore.getBugs());
+      // Reset form fields
+      this.bugTitle = '';
+      this.bugDescription = '';
+
+      // Show success notification or perform other actions
+      this.$q.notify({
+        color: 'positive',
+        icon: 'check',
+        message: 'Bug report submitted successfully!',
+        position: 'top',
+        timeout: 3000,
+      });
+    },
+  },
+};
+</script>
+
+<style scoped>
+.dark {
+  color: white; /* Text color */
+  background:url('test.svg') no-repeat center center;/* Background image with overlay */
+  background-blend-mode: darken; /* Blend mode to overlay the rgba color */
+  background-size: 40% 100%; /* Ensures the background image covers the entire element */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.bug-report-card {
+  width: 100%; /* Full width by default */
+  max-width: 40rem; /* Max width */
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+  color: #1a1a1a;
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Padding for spacing */
+  backdrop-filter: blur(10px); /* Frosted glass effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Optional border for better visibility */
+}
+
+
+.full-width {
+  width: 10vw;
+}
+</style>

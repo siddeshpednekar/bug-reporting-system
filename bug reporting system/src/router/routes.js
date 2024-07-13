@@ -8,16 +8,16 @@ const routes = [
   },
   {
     path: '/admin',
-    component: () => import('layouts/LoginLayout.vue'),
+    component: () => import('layouts/AdminLayout.vue'),
     children: [
       { path: '', component: () => import('pages/LoginPage.vue') }
     ]
   },
   {
     path: '/tester',
-    component: () => import('layouts/LoginLayout.vue'),
+    component: () => import('layouts/TesterLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/LoginPage.vue') }
+      { path: '', component: () => import('pages/TesterPage.vue')},{path: 'report', component: () => import('pages/TesterBugData.vue')} 
     ]
   },
   {

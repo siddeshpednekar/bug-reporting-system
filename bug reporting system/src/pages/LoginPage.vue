@@ -54,7 +54,6 @@ export default {
     async login() {
       this.loading = true;
 
-      // Simulate async login process
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       console.log("Email:", this.email);
@@ -75,7 +74,7 @@ export default {
           });
         });
       } else if (foundUser.password === this.password) {
-        const route = foundUser.designation === "admin" ? "/dashboardadmin/admin" : "/userdashboard/user";
+        const route = foundUser.designation === "admin" ? "/admin/" : "/userdashboard/user";
         this.$router.push({
           path: route,
           query: {
@@ -131,7 +130,7 @@ export default {
   background: #fff;
   color: #000;
   border-radius: 5rem;
-  padding: 3rem 1rem; /* Adjusted padding for smaller screens */
+  padding: 3rem 1rem; 
   animation: fadeIn 1s ease-in-out 0.5s;
   animation-fill-mode: both;
 }
@@ -140,7 +139,7 @@ export default {
   width: 100%;
 }
 
-/* CSS Animations */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -152,7 +151,6 @@ export default {
   }
 }
 
-/* Vue Transitions */
 .fade-slide-enter-active, .fade-slide-leave-active {
   transition: opacity 0.5s, transform 0.5s;
 }
@@ -161,10 +159,9 @@ export default {
   transform: translateY(20px);
 }
 
-/* Responsive Adjustments */
 @media (max-width: 768px) {
   .login-card {
-    padding: 2rem 1rem; /* Adjust padding for smaller devices */
+    padding: 2rem 1rem; 
   }
 }
 </style>

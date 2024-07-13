@@ -1,95 +1,170 @@
 <template>
-  <q-page class="login-page">
-    <div class="form-container">
-      <div class="form-content">
-        <q-icon name="person" size="64px" class="icon" />
-        <h2>Login</h2>
-        <q-input v-model="email" label="Email" filled dense class="input-field" />
-        <q-input v-model="password" label="Password" type="password" filled dense class="input-field" />
-        <q-btn @click="login" label="LOGIN" class="login-btn" />
-      </div>
+  <q-page class="flex items-center justify-center q-pa-md" style="background-color: #000;">
+    <div class="row q-col-gutter-md q-mt-xl">
+      <transition name="fade-slide">
+        <div v-if="showContent" class="col-12 col-md-6 flex items-center justify-center">
+          <img src="/test.svg" alt="Login Illustration" class="img full-width" />
+        </div>
+      </transition>
+      <transition name="fade-slide">
+        <div v-if="showContent" class="col-12 col-md-6 flex flex-center">
+          <q-card class="q-pa-md login-card">
+            <q-card-section>
+              <div class="text-h5 q-mb-md" style="text-align:center;font-weight:bolder;margin-bottom:2rem;">
+                <span style="color:#6c63ff;font-size:2rem;">Sign In</span>
+              </div>
+              <p class="q-mb-md" style="text-align:center;font-family:cursive;">
+                Welcome! Please sign in to report and track bugs efficiently.
+              </p>
+            </q-card-section>
+            
+            <q-card-section>
+              <q-input outlined v-model="email" label="username" class="q-mb-md" :rules="[val => !!val || 'Username is required']"/>
+              <q-input outlined v-model="password" type="password" label="Password" class="q-mb-md" :rules="[val => !!val || 'password is required']"/>
+              <div class="row items-center q-mb-md">
+                <q-space />
+              </div>
+              <q-btn style="background:#6c63ff;border-radius:5rem;color:#fff;" label="Log In" class="full-width q-mb-md" @click="login" :loading="loading" />
+            </q-card-section>
+          </q-card>
+        </div>
+      </transition>
     </div>
   </q-page>
 </template>
 
 <script>
+import { useDataStore } from "../stores/userData.js";
+import { Notify } from "quasar";
+
 export default {
+  name: "LoginPage",
   data() {
     return {
-      email: '',
-      password: ''
+      email: "",
+      password: "",
+      showContent: false,
+      loading: false,
     };
   },
+  mounted() {
+    this.showContent = true;
+  },
   methods: {
-    login() {
-      // Handle login logic
+    async login() {
+      this.loading = true;
+
+      // Simulate async login process
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      console.log("Email:", this.email);
+      console.log("Password:", this.password);
+
+      const dataStore = useDataStore();
+      const users = dataStore.users;
+      console.log(users);
+      const foundUser = users.find((user) => user.username === this.email);
+      if (!foundUser) {
+        console.error("User not found!");
+        this.$nextTick(() => {
+          Notify.create({
+            message: "User not found!",
+            color: "negative",
+            position: "top",
+            timeout: 2000,
+          });
+        });
+      } else if (foundUser.password === this.password) {
+        const route = foundUser.designation === "admin" ? "/dashboardadmin/admin" : "/userdashboard/user";
+        this.$router.push({
+          path: route,
+          query: {
+            username: foundUser.username,
+            fullname: foundUser.fullname,
+            email: foundUser.email,
+            phone: foundUser.phone,
+            designation: foundUser.designation,
+            userid: foundUser.userid,
+          },
+        });
+
+        this.$nextTick(() => {
+          Notify.create({
+            message: `Welcome ${foundUser.fullname}`,
+            color: "positive",
+            position: "top",
+            timeout: 2000,
+          });
+        });
+      } else {
+        console.error("Incorrect password");
+        this.$nextTick(() => {
+          Notify.create({
+            message: "Incorrect password",
+            color: "negative",
+            position: "top",
+            timeout: 2000,
+          });
+        });
+      }
+
+      this.loading = false;
     },
-    goToSignUp() {
-      this.$router.push('/signup');
-    }
-  }
+  },
 };
 </script>
-
 <style scoped>
-.login-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: 
-    linear-gradient(45deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.3)),
-    linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2)),
-    rgba(0, 0, 0, 0.3) url("/bg2.webp");
-  background-repeat: no-repeat;
-  background-size: cover;
+.q-pa-md {
+  padding: 16px;
 }
 
+.q-mt-xl {
+  margin-top: 64px;
+}
 
+.img {
+  animation: fadeIn 1s ease-in-out;
+}
 
-.form-container {
-  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background */
-  backdrop-filter: blur(10px); /* Apply blur effect */
-  padding: 40px 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  width: 90%;
+.login-card {
   max-width: 400px;
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Optional: light border to enhance glassy effect */
+  background: #fff;
+  color: #000;
+  border-radius: 5rem;
+  padding: 3rem 1rem; /* Adjusted padding for smaller screens */
+  animation: fadeIn 1s ease-in-out 0.5s;
+  animation-fill-mode: both;
 }
 
-
-.form-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.icon {
-  color: #000; /* Bright accent color for icon */
-  margin-bottom: 20px;
-}
-
-h2 {
-  color: #c5c6c7; /* Light gray text for better contrast */
-  margin-bottom: 30px;
-  font-size: 24px;
-}
-
-.input-field {
+.full-width {
   width: 100%;
-  margin-bottom: 20px;
 }
 
-.login-btn {
-  width: 100%;
-  margin-bottom: 10px;
-  background-color: #000; /* Bright accent color */
-  color: #fff; /* Dark text for better contrast */
+/* CSS Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.signup-btn {
-  width: 100%;
-  color: #66fcf1; /* Bright accent color for text */
+/* Vue Transitions */
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: opacity 0.5s, transform 0.5s;
+}
+.fade-slide-enter, .fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .login-card {
+    padding: 2rem 1rem; /* Adjust padding for smaller devices */
+  }
 }
 </style>

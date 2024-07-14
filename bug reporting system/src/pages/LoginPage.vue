@@ -74,7 +74,16 @@ export default {
           });
         });
       } else if (foundUser.password === this.password) {
-        const route = foundUser.designation === "admin" ? "/admin/" : "/userdashboard/user";
+        let route=""
+        if(foundUser.designation==="admin")
+        {
+          route="/admin"
+        }else if(foundUser.designation==="tester")
+        {
+          route="/tester"
+        }else if(foundUser.designation==="developer") {
+          route="/developer"
+        }
         this.$router.push({
           path: route,
           query: {

@@ -11,19 +11,20 @@
         <q-avatar>
            <q-icon name="person" color="white" />
         </q-avatar>
-        <div class="text-subtitle2 q-ml-sm">Pauline Seitz</div>
+        <div class="text-subtitle2 q-ml-sm">{{ user.fullname }}</div>
+        <div class="text-subtitle2 q-ml-sm">({{ user.designation }})</div>
       </q-toolbar>
     </q-header>
 
     <!-- Drawer (Sidebar) -->
     <q-drawer v-model="leftDrawerOpen" show-if-above side="left" bordered class="bg-dark">
       <q-list>
-        <q-item clickable v-ripple to="/dashboardadmin/admin">
+        <q-item class="item" clickable v-ripple to="/dashboardadmin/admin">
           <q-item-section>
             <q-item-label>Dashboard</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/dashboardadmin/users">
+        <q-item class="item" clickable v-ripple to="/dashboardadmin/users">
           <q-item-section>
             <q-item-label>Users</q-item-label>
           </q-item-section>
@@ -34,12 +35,11 @@
 
     <!-- Main Content -->
     <q-page-container>
-      <q-page class="q-pa-md">
+      <q-page class="">
         <!-- Your main content goes here -->
         <router-view />
         <div>
           <!-- Placeholder for chart -->
-          <q-img src="path/to/your/chart-image.jpg" ratio="16/9" />
         </div>
       </q-page>
     </q-page-container>
@@ -51,8 +51,16 @@ export default {
   data() {
     return {
       leftDrawerOpen: true,
+      user: {
+        fullname: '',
+        designation: ''
+      }
     };
   },
+  mounted() {
+    this.user.fullname = this.$route.query.fullname || 'Unknown User';
+    this.user.designation = this.$route.query.designation || 'Unknown Designation';
+  }
 };
 </script>
 
@@ -67,7 +75,13 @@ export default {
 .q-avatar img {
   border-radius: 50%;
 }
-
+.item{
+    border-radius:0 5rem 5rem 0;
+    background:#6c63ff;
+    color:white;
+    margin:0.5rem;
+    font-weight:bolder;
+}
 .q-list .q-item {
   color: white;
 }

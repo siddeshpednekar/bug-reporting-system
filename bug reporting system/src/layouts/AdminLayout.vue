@@ -24,9 +24,9 @@
             <q-item-label>Dashboard</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="item" clickable v-ripple to="/dashboardadmin/users">
+        <q-item class="item" clickable v-ripple to="/admin/bugs">
           <q-item-section>
-            <q-item-label>Users</q-item-label>
+            <q-item-label>view Bugs</q-item-label>
           </q-item-section>
         </q-item>
         <!-- Add more menu items as needed -->

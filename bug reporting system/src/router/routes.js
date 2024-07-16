@@ -10,7 +10,7 @@ const routes = [
     path: '/admin',
     component: () => import('layouts/AdminLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/AdminPage.vue') }
+      { path: '', component: () => import('pages/AdminPage.vue') },{ path: 'bugs', component: () => import('pages/AdminBuglist.vue') }
     ]
   },
   {

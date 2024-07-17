@@ -42,7 +42,7 @@ export const useBugStore = defineStore({
         reportedBy: 'Tester',
         createdAt: new Date('2023-07-01T08:15:00Z'),
         deadline: null,
-        assignedTo: 'dev1'
+        assignedTo: 'developer1'
       },
       {
         id: '5',
@@ -52,7 +52,7 @@ export const useBugStore = defineStore({
         reportedBy: 'Tester',
         createdAt: new Date('2023-07-03T17:00:00Z'),
         deadline: null,
-        assignedTo: 'dev1'
+        assignedTo: 'developer2'
       },
     ],
   }),

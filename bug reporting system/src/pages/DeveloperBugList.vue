@@ -74,13 +74,15 @@
   </q-page>
 </template>
 <script>
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useBugStore } from '../stores/BugStore';
 
 export default defineComponent({
   setup() {
+    const route = useRoute();
     const bugStore = useBugStore();
-    const developerId = 'dev1'; // Example developer ID
+    const developerId = ref(null); // Use ref to make developerId reactive
     const editBugDialog = ref(false);
     const statusDialog = ref(false);
     const editedBug = ref({});
@@ -99,12 +101,16 @@ export default defineComponent({
       { label: 'Resolved', value: 'resolved' },
     ];
 
-    const assignedBugs = computed(() => bugStore.bugs.filter(bug => bug.assignedTo === developerId));
+    onMounted(() => {
+      developerId.value = route.query.username || 'defaultDeveloperId'; // Replace 'defaultDeveloperId' with an appropriate default value
+      console.log(developerId.value);
+    });
+
+    const assignedBugs = computed(() => bugStore.bugs.filter(bug => bug.assignedTo === developerId.value));
 
     const filteredBugs = computed(() => {
-      if (selectedStatus.value.value) {
+      if (selectedStatus.value) {
         return assignedBugs.value.filter(bug => bug.status === selectedStatus.value.value);
-        
       }
       return assignedBugs.value;
     });
@@ -133,7 +139,6 @@ export default defineComponent({
     };
 
     const changeStatus = () => {
-        
       editedBug.value.status = selectedStatusValue.value.value;
       bugStore.updateBug(editedBug.value);
       statusDialog.value = false;

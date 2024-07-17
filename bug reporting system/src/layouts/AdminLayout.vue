@@ -1,6 +1,5 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <!-- Header -->
     <q-header elevated class="bg-dark">
       <q-toolbar>
       <q-btn flat round dense icon="menu" @click="leftDrawerOpen = !leftDrawerOpen" />
@@ -16,7 +15,7 @@
       </q-toolbar>
     </q-header>
 
-    <!-- Drawer (Sidebar) -->
+
     <q-drawer v-model="leftDrawerOpen" show-if-above side="left" bordered class="bg-dark">
       <q-list>
         <q-item class="item" clickable v-ripple to="/admin">
@@ -34,17 +33,14 @@
             <q-item-label>Login</q-item-label>
           </q-item-section>
         </q-item>
-        <!-- Add more menu items as needed -->
       </q-list>
     </q-drawer>
 
-    <!-- Main Content -->
+
     <q-page-container>
       <q-page class="">
-        <!-- Your main content goes here -->
         <router-view />
         <div>
-          <!-- Placeholder for chart -->
         </div>
       </q-page>
     </q-page-container>
@@ -70,7 +66,6 @@ export default {
 </script>
 
 <style scoped>
-/* Custom styles */
 .q-header,
 .q-drawer {
   background-color: #1a1a1a;
@@ -80,6 +75,7 @@ export default {
 .q-avatar img {
   border-radius: 50%;
 }
+
 .item{
     border-radius:0 5rem 5rem 0;
     background:#6c63ff;
@@ -90,6 +86,7 @@ export default {
 .q-list .q-item {
   color: white;
 }
+
 .q-avatar {
   background-color: #6c63ff; /* Accent color for avatar background */
 }

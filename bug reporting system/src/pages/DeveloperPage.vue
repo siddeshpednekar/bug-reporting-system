@@ -2,11 +2,11 @@
   <q-page class="q-pa-md dark">
     <div class="home-content">
       <div class="intro-section">
-        <h1 class="intro-title">Welcome, Tester!</h1>
+        <h1 class="intro-title">Welcome, Developer!</h1>
         <p class="intro-text">
-          Track, manage, and report bugs effectively. Our tool helps you ensure the best quality for your projects.
+          Manage your projects, review code, and collaborate with your team. Your developer tools are here to help you build amazing applications.
         </p>
-        <q-btn class="intro-button" label="Get Started" @click="navigateToBugReport" />
+        <q-btn class="intro-button" label="Get Started" @click="navigateToDashboard" />
       </div>
       <div class="image-section">
         <!-- You can add additional decorative images or SVGs here -->
@@ -15,12 +15,11 @@
   </q-page>
 </template>
 
-
 <script>
 export default {
   methods: {
-    navigateToBugReport() {
-      this.$router.push('/tester/report'); // Replace with your actual route name
+    navigateToDashboard() {
+      this.$router.push('/developer/dashboard'); // Replace with your actual route name
     },
   },
 };
@@ -29,9 +28,9 @@ export default {
 <style scoped>
 .dark {
   color: white; /* Text color */
-  background:rgba(0,0,0,0.5) url('/bg13.jpg') no-repeat; /* Background image with overlay */
+  background: rgba(0,0,0,0.3) url('/bg11.webp') no-repeat; /* Background image with overlay */
   background-blend-mode: darken; /* Blend mode to overlay the rgba color */
-  background-size:cover; /* Ensures the background image covers the entire element */
+  background-size: cover; /* Ensures the background image covers the entire element */
   display: flex;
   justify-content: center;
   align-items: center;

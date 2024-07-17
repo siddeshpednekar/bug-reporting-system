@@ -19,12 +19,12 @@
     <!-- Drawer (Sidebar) -->
     <q-drawer v-model="leftDrawerOpen" show-if-above side="left" bordered class="bg-dark">
       <q-list>
-        <q-item class="item" clickable v-ripple to="/admin">
+        <q-item class="item" clickable v-ripple to="/developer">
           <q-item-section>
             <q-item-label>Home</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="item" clickable v-ripple to="/admin/bugs">
+        <q-item class="item" clickable v-ripple to="/developer/bugs">
           <q-item-section>
             <q-item-label>view Bugs</q-item-label>
           </q-item-section>

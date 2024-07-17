@@ -22,9 +22,10 @@ const routes = [
   },
   {
     path: '/developer',
-    component: () => import('layouts/LoginLayout.vue'),
+    component: () => import('layouts/DeveloperLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/LoginPage.vue') }
+      { path: '', component: () => import('pages/DeveloperPage.vue') },
+      { path: 'bugs', component: () => import('pages/DeveloperBugList.vue') }
     ]
   },
 

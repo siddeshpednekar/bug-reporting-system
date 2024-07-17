@@ -28,7 +28,7 @@ export default {
 <style scoped>
 .dark {
   color: white; /* Text color */
-  background: rgba(0,0,0,0.5) url('/bg4.png') no-repeat; /* Background image with overlay */
+  background: rgba(0,0,0,0.5) url('/bg12.webp') no-repeat; /* Background image with overlay */
   background-blend-mode: darken; /* Blend mode to overlay the rgba color */
   background-size: cover; /* Ensures the background image covers the entire element */
   display: flex;

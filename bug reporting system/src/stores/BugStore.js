@@ -1,4 +1,3 @@
-// BugStore.js
 import { defineStore } from 'pinia';
 
 export const useBugStore = defineStore({
@@ -12,7 +11,8 @@ export const useBugStore = defineStore({
         status: 'reported',
         reportedBy: 'Tester',
         createdAt: new Date('2023-06-15T09:00:00Z'),
-        deadline: null // Adding deadline field
+        deadline: null,
+        assignedTo: 'dev1'
       },
       {
         id: '2',
@@ -21,7 +21,8 @@ export const useBugStore = defineStore({
         status: 'in-progress',
         reportedBy: 'Tester',
         createdAt: new Date('2023-06-18T14:30:00Z'),
-        deadline: null // Adding deadline field
+        deadline: null,
+        assignedTo: 'dev1'
       },
       {
         id: '3',
@@ -30,7 +31,8 @@ export const useBugStore = defineStore({
         status: 'resolved',
         reportedBy: 'Tester',
         createdAt: new Date('2023-06-20T12:45:00Z'),
-        deadline: null // Adding deadline field
+        deadline: null,
+        assignedTo: 'dev1'
       },
       {
         id: '4',
@@ -39,7 +41,8 @@ export const useBugStore = defineStore({
         status: 'reported',
         reportedBy: 'Tester',
         createdAt: new Date('2023-07-01T08:15:00Z'),
-        deadline: null // Adding deadline field
+        deadline: null,
+        assignedTo: 'dev1'
       },
       {
         id: '5',
@@ -48,13 +51,12 @@ export const useBugStore = defineStore({
         status: 'in-progress',
         reportedBy: 'Tester',
         createdAt: new Date('2023-07-03T17:00:00Z'),
-        deadline: null // Adding deadline field
+        deadline: null,
+        assignedTo: 'dev1'
       },
-      
     ],
   }),
   actions: {
-
     addBug(bug) {
       this.bugs.push(bug);
     },

@@ -24,22 +24,21 @@
             <q-item-label>Home</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/tester/report" class="item">
+        <q-item clickable v-ripple :to="{
+            path: '/tester/report',
+            query: { fullname: user.fullname, username: user.username },
+          }" class="item">
           <q-item-section>
             <q-item-label>Report bug</q-item-label>
           </q-item-section>
         </q-item>
-        <!-- Add more menu items as needed -->
       </q-list>
     </q-drawer>
 
-    <!-- Main Content -->
     <q-page-container>
       <q-page>
-        <!-- Your main content goes here -->
         <router-view />
         <div>
-          <!-- Placeholder for chart -->
         </div>
       </q-page>
     </q-page-container>
@@ -58,9 +57,11 @@ export default {
     };
   },
   mounted() {
-    this.user.fullname = this.$route.query.fullname || 'Unknown User';
-    this.user.designation = this.$route.query.designation || 'Unknown Designation';
-  }
+    this.user.fullname = this.$route.query.fullname || "Unknown User";
+    this.user.designation =
+      this.$route.query.designation || "Unknown Designation";
+    this.user.username = this.$route.query.username || "";
+  },
 };
 </script>
 

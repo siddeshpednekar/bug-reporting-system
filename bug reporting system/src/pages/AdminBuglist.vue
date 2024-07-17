@@ -123,6 +123,7 @@
 </template>
 <script>
 import { useBugStore } from '../stores/BugStore';
+import { useDataStore } from '../stores/userData';
 
 export default {
   data() {
@@ -157,12 +158,6 @@ export default {
         reportedBy: '',
         createdAt: ''
       },
-      developerOptions: [
-        { label: 'John Doe', value: 'john_doe' },
-        { label: 'Jane Smith', value: 'jane_smith' },
-        { label: 'Alice Johnson', value: 'alice_johnson' },
-        // Add more developers as needed
-      ],
       selectedDeveloper: ''
     };
   },
@@ -176,6 +171,12 @@ export default {
         return this.bugs.filter(bug => bug.status === this.selectedStatus.value);
       }
       return this.bugs;
+    },
+    developerOptions() {
+      const dataStore = useDataStore();
+      return dataStore.users
+        .filter(user => user.designation === 'developer')
+        .map(dev => ({ label: dev.fullname, value: dev.username }));
     }
   },
   methods: {
@@ -197,6 +198,9 @@ export default {
     },
     updateBug() {
       const bugStore = useBugStore();
+      let test=this.editedBug.status;
+      this.editedBug.status=test.value;
+      console.log(test)
       bugStore.updateBug(this.editedBug);
       console.log(`Bug ${this.editedBug.id} updated`);
       this.editBugDialog = false;
@@ -208,8 +212,8 @@ export default {
     },
     updateAssignment() {
       const bugStore = useBugStore();
-      bugStore.assignBug(this.selectedBugId, this.selectedDeveloper);
-      console.log(`Bug ${this.selectedBugId} assigned to developer ${this.selectedDeveloper}`);
+      bugStore.assignBug(this.selectedBugId, this.selectedDeveloper.value);
+      console.log(`Bug ${this.selectedBugId} assigned to developer ${this.selectedDeveloper.value}`);
       this.assignDeveloperDialog = false;
     },
     setDeadline(bug) {

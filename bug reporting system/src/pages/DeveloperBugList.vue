@@ -25,7 +25,6 @@
         >
           <template v-slot:body-cell-actions="props">
             <q-td :props="props">
-              <!-- <q-btn icon="edit" color="primary" @click="editBug(props.row)" /> -->
               <q-btn icon="check_circle" color="positive" @click="openStatusDialog(props.row)" />
             </q-td>
           </template>
@@ -50,7 +49,9 @@
           </q-card-section>
         </q-card>
       </q-dialog>
-    <q-dialog v-model="statusDialog" persistent transition-show="slide-up" transition-hide="slide-down">
+
+      <!-- Change Status Dialog -->
+      <q-dialog v-model="statusDialog" persistent transition-show="slide-up" transition-hide="slide-down">
         <q-card class="status-dialog">
           <q-card-section class="q-pt-none q-px-lg">
             <div class="q-card-main">
@@ -82,7 +83,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const bugStore = useBugStore();
-    const developerId = ref(null); // Use ref to make developerId reactive
+    const developerId = ref(null); 
     const editBugDialog = ref(false);
     const statusDialog = ref(false);
     const editedBug = ref({});
@@ -109,7 +110,7 @@ export default defineComponent({
     const assignedBugs = computed(() => bugStore.bugs.filter(bug => bug.assignedTo === developerId.value));
 
     const filteredBugs = computed(() => {
-      if (selectedStatus.value) {
+      if (selectedStatus.value.value) {
         return assignedBugs.value.filter(bug => bug.status === selectedStatus.value.value);
       }
       return assignedBugs.value;
@@ -119,13 +120,14 @@ export default defineComponent({
       { name: 'title', label: 'Title', align: 'left', field: 'title', sortable: true },
       { name: 'description', label: 'Description', align: 'left', field: 'description', sortable: true },
       { name: 'status', label: 'Status', align: 'left', field: 'status', sortable: true },
+      { name: 'deadline', label: 'Deadline', align: 'left', field: 'deadline', sortable: true }, // Added deadline column
       { name: 'actions', label: 'Actions', align: 'center' }
     ];
 
     const editBug = (bug) => {
       editedBug.value = { ...bug };
       editBugDialog.value = true;
-    };
+    };  
 
     const updateBug = () => {
       bugStore.updateBug(editedBug.value);
@@ -163,6 +165,7 @@ export default defineComponent({
   }
 });
 </script>
+
 
 <style scoped>
 .dark {

@@ -4,9 +4,14 @@
       <div class="intro-section">
         <h1 class="intro-title">Welcome, Developer!</h1>
         <p class="intro-text">
-          Manage your projects, review code, and collaborate with your team. Your developer tools are here to help you build amazing applications.
+          Manage your projects, review code, and collaborate with your team.
+          Your developer tools are here to help you build amazing applications.
         </p>
-        <q-btn class="intro-button" label="Get Started" @click="navigateToDashboard" />
+        <q-btn
+          class="intro-button"
+          label="Get Started"
+          @click="navigateToDashboard"
+        />
       </div>
       <div class="image-section">
         <!-- You can add additional decorative images or SVGs here -->
@@ -17,10 +22,28 @@
 
 <script>
 export default {
+  data() {
+    return {
+      user: {
+        fullname: "",
+        designation: "",
+        username: "", // Corrected from "=" to ":"
+      },
+    };
+  },
   methods: {
     navigateToDashboard() {
-      this.$router.push('/developer/dashboard'); // Replace with your actual route name
+      this.$router.push({
+        path: "/developer/bugs",
+        query: { fullname: this.user.fullname, username: this.user.username },
+      }); // Replace with your actual route name
     },
+  },
+  mounted() {
+    this.user.fullname = this.$route.query.fullname || "Unknown User";
+    this.user.designation =
+      this.$route.query.designation || "Unknown Designation";
+    this.user.username = this.$route.query.username || "";
   },
 };
 </script>
@@ -28,7 +51,7 @@ export default {
 <style scoped>
 .dark {
   color: white; /* Text color */
-  background: rgba(0,0,0,0.3) url('/bg11.webp') no-repeat; /* Background image with overlay */
+  background: rgba(0, 0, 0, 0.3) url("/bg11.webp") no-repeat; /* Background image with overlay */
   background-blend-mode: darken; /* Blend mode to overlay the rgba color */
   background-size: cover; /* Ensures the background image covers the entire element */
   display: flex;

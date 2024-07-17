@@ -12,7 +12,8 @@ export const useBugStore = defineStore({
         reportedBy: 'Tester',
         createdAt: new Date('2023-06-15T09:00:00Z'),
         deadline: null,
-        assignedTo: 'dev1'
+        assignedTo: 'dev1',
+        severity: 'high'
       },
       {
         id: '2',
@@ -22,7 +23,8 @@ export const useBugStore = defineStore({
         reportedBy: 'Tester',
         createdAt: new Date('2023-06-18T14:30:00Z'),
         deadline: null,
-        assignedTo: 'dev1'
+        assignedTo: 'dev1',
+        severity: 'medium'
       },
       {
         id: '3',
@@ -32,7 +34,8 @@ export const useBugStore = defineStore({
         reportedBy: 'Tester',
         createdAt: new Date('2023-06-20T12:45:00Z'),
         deadline: null,
-        assignedTo: 'dev1'
+        assignedTo: 'dev1',
+        severity: 'low'
       },
       {
         id: '4',
@@ -42,7 +45,8 @@ export const useBugStore = defineStore({
         reportedBy: 'Tester',
         createdAt: new Date('2023-07-01T08:15:00Z'),
         deadline: null,
-        assignedTo: 'developer1'
+        assignedTo: 'developer1',
+        severity: 'high'
       },
       {
         id: '5',
@@ -52,7 +56,8 @@ export const useBugStore = defineStore({
         reportedBy: 'Tester',
         createdAt: new Date('2023-07-03T17:00:00Z'),
         deadline: null,
-        assignedTo: 'developer2'
+        assignedTo: 'developer2',
+        severity: 'medium'
       },
     ],
   }),

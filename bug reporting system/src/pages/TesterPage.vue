@@ -9,7 +9,6 @@
         <q-btn class="intro-button" label="Get Started" @click="navigateToBugReport" />
       </div>
       <div class="image-section">
-        <!-- You can add additional decorative images or SVGs here -->
       </div>
     </div>
   </q-page>
@@ -20,7 +19,7 @@
 export default {
   methods: {
     navigateToBugReport() {
-      this.$router.push('/tester/report'); // Replace with your actual route name
+      this.$router.push('/tester/report'); 
     },
   },
 };
@@ -28,15 +27,15 @@ export default {
 
 <style scoped>
 .dark {
-  color: white; /* Text color */
-  background:rgba(0,0,0,0.5) url('/bg13.jpg') no-repeat; /* Background image with overlay */
-  background-blend-mode: darken; /* Blend mode to overlay the rgba color */
-  background-size:cover; /* Ensures the background image covers the entire element */
+  color: white; 
+  background:rgba(0,0,0,0.5) url('/bg13.jpg') no-repeat; 
+  background-blend-mode: darken; 
+  background-size:cover; 
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Ensure it takes the full height of the viewport */
-  padding: 1rem; /* Add some padding for small screens */
+  min-height: 100vh; 
+  padding: 1rem; 
 }
 
 .home-content {
@@ -75,7 +74,6 @@ export default {
   margin-top: 2rem;
 }
 
-/* Media queries for responsiveness */
 @media (min-width: 600px) {
   .home-content {
     flex-direction: row;

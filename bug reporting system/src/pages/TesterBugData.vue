@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md dark" >
+  <q-page class="q-pa-md dark">
     <q-card class="bug-report-card">
       <q-card-section>
         <div class="text-h5" style="text-align:center;font-weight:bolder;">Bug Details</div>
@@ -8,6 +8,14 @@
       <q-card-section>
         <q-input outlined v-model="bugTitle" label="Bug Title" class="q-mb-md" dense />
         <q-input outlined v-model="bugDescription" label="Bug Description" class="q-mb-md" type="textarea" rows="5" dense />
+        <q-select 
+          outlined 
+          v-model="bugSeverity" 
+          label="Severity" 
+          :options="severityOptions" 
+          class="q-mb-md" 
+          dense 
+        />
         <q-btn style="background:#6c63ff;border-radius:5rem;color:#fff;" label="Submit Bug Report" class="full-width q-mb-md" @click="submitBugReport" :loading="loading" />
       </q-card-section>
     </q-card>
@@ -20,32 +28,43 @@ import { useBugStore } from '../stores/bugStore';
 export default {
   data() {
     return {
+      username:'',
       bugTitle: '',
       bugDescription: '',
+      bugSeverity: 'low',
       loading: false,
+      severityOptions: [
+        { label: 'Low', value: 'low' },
+        { label: 'Medium', value: 'medium' },
+        { label: 'High', value: 'high' }
+      ]
     };
   },
   methods: {
     submitBugReport() {
-      // Assuming bug data structure; generate a unique ID for each bug
       const newBug = {
-        id: Math.random().toString(36).substr(2, 9), // Example of generating a unique ID
+        id: Math.random().toString(36).substr(2, 9), 
         title: this.bugTitle,
         description: this.bugDescription,
-        reportedBy: 'Tester', // Replace with actual user info if available
-        status: 'reported', // Initial status
+        severity: this.bugSeverity.value,
+        reportedBy: this.username, 
+        status: 'reported', 
         createdAt: new Date(),
+        deadline: null,
+        assignedTo: null,
       };
-
+      console.log(newBug)
       // Accessing the Pinia store
       const bugStore = useBugStore();
 
       // Add bug to store
       bugStore.addBug(newBug);
       console.log(bugStore.getBugs());
+
       // Reset form fields
       this.bugTitle = '';
       this.bugDescription = '';
+      this.bugSeverity = 'low';
 
       // Show success notification or perform other actions
       this.$q.notify({
@@ -57,6 +76,9 @@ export default {
       });
     },
   },
+  mounted(){
+    this.username=this.$route.query.username;
+  }
 };
 </script>
 
@@ -71,8 +93,6 @@ export default {
   align-items: center;
 }
 
-
-
 .bug-report-card {
   width: 100%; /* Full width by default */
   max-width: 40rem; /* Max width */
@@ -84,7 +104,6 @@ export default {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   border: 1px solid rgba(255, 255, 255, 0.3); /* Optional border for better visibility */
 }
-
 
 .full-width {
   width: 10vw;

@@ -19,7 +19,7 @@
 export default {
   methods: {
     navigateToDashboard() {
-      this.$router.push('/admin/dashboard'); // Replace with your actual route name
+      this.$router.push('/admin/pending'); // Replace with your actual route name
     },
   },
 };

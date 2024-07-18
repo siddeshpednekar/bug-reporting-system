@@ -23,9 +23,14 @@
             <q-item-label>Home</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="item" clickable v-ripple to="/admin/bugs">
+        <q-item class="item" clickable v-ripple to="/admin/completed">
           <q-item-section>
-            <q-item-label>view Bugs</q-item-label>
+            <q-item-label>Completed Bugs</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item class="item" clickable v-ripple to="/admin/pending">
+          <q-item-section>
+            <q-item-label>Pending bugs</q-item-label>
           </q-item-section>
         </q-item>
         <q-item class="item" clickable v-ripple to="/">
@@ -77,7 +82,7 @@ export default {
 }
 
 .item{
-    border-radius:0 5rem 5rem 0;
+    /*border-radius:0 5rem 5rem 0;*/
     background:#6c63ff;
     color:white;
     margin:0.5rem;

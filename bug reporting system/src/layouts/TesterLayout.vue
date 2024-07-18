@@ -32,6 +32,11 @@
             <q-item-label>Report bug</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item class="item" clickable v-ripple to="/">
+          <q-item-section>
+            <q-item-label>Login</q-item-label>
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -77,7 +82,7 @@ export default {
   border-radius: 50%;
 }
 .item {
-  border-radius: 0 5rem 5rem 0;
+  /*border-radius: 0 5rem 5rem 0;*/
   background: #6c63ff;
   color: white;
   margin: 0.5rem;

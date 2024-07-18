@@ -19,7 +19,7 @@ export const useBugStore = defineStore({
         id: '2',
         title: 'Error 500 on data export',
         description: 'Exporting data as CSV throws a server error 500.',
-        status: 'in-progress',
+        status: 'resolved',
         reportedBy: 'Tester',
         createdAt: new Date('2023-06-18T14:30:00Z'),
         deadline: null,

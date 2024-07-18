@@ -31,6 +31,15 @@ export const useDataStore = defineStore('data', {
         userid: '3'
       },
       {
+        username: 'tester2',
+        fullname: 'Regular User 2',
+        email: 'user2@example.com',
+        phone: '5555555555',
+        password: 'tester2',
+        designation: 'tester',
+        userid: '7'
+      },
+      {
         username: 'tester1',
         fullname: 'siddesh Pednekar',
         email: 'tester1@example.com',

@@ -4,38 +4,59 @@
       <div class="intro-section">
         <h1 class="intro-title">Welcome, Tester!</h1>
         <p class="intro-text">
-          Track, manage, and report bugs effectively. Our tool helps you ensure the best quality for your projects.
+          Track, manage, and report bugs effectively. Our tool helps you ensure
+          the best quality for your projects.
         </p>
-        <q-btn class="intro-button" label="Get Started" @click="navigateToBugReport" />
+        <q-btn
+          class="intro-button"
+          label="Get Started"
+          @click="navigateToBugReport"
+        />
       </div>
-      <div class="image-section">
-      </div>
+      <div class="image-section"></div>
     </div>
   </q-page>
 </template>
 
-
 <script>
 export default {
+  data() {
+    return {
+      user: {
+        fullname: "",
+        designation: "",
+        username:""
+      },
+    };
+  },
   methods: {
     navigateToBugReport() {
-      this.$router.push('/tester/report'); 
+      this.$router.push({
+        path: "/tester/report",
+        query: { fullname: this.user.fullname, username: this.user.username },
+      });
     },
+  },
+  mounted() {
+    this.user.fullname = this.$route.query.fullname || "Unknown User";
+    this.user.designation =
+      this.$route.query.designation || "Unknown Designation";
+    this.user.username = this.$route.query.username || "";
   },
 };
 </script>
 
 <style scoped>
 .dark {
-  color: white; 
-  background:rgba(0,0,0,0.5) url('/bg13.jpg') no-repeat; 
-  background-blend-mode: darken; 
-  background-size:cover; 
+  color: white;
+  background: rgba(0, 0, 0, 0.5) url("/bg13.jpg") no-repeat;
+  background-blend-mode: darken;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; 
-  padding: 1rem; 
+  min-height: 100vh;
+  padding: 1rem;
 }
 
 .home-content {

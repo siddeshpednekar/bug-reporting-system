@@ -103,7 +103,7 @@ export default {
   border-radius: 50%;
 }
 .item {
-  border-radius: 0 5rem 5rem 0;
+  /*border-radius: 0 5rem 5rem 0;*/
   background: #6c63ff;
   color: white;
   margin: 0.5rem;

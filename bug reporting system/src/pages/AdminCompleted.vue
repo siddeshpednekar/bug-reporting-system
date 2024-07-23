@@ -2,47 +2,27 @@
   <q-page class="q-pa-md">
     <div class="q-gutter-md">
       <h1 style="text-align:center;font-weight:bolder;font-size:2rem;">Completed Bug List</h1>
-      <q-table
-        :rows="reportedBugs"
-        :columns="columns"
-        row-key="id"
-        v-model:pagination="pagination"
-        :rows-per-page-options="[5, 10, 20, 50]"
-      >
-        <template v-slot:body-cell-title="props">
-          <q-td :props="props">
-            {{ props.row.title }}
-          </q-td>
-        </template>
-
-        <template v-slot:body-cell-description="props">
-          <q-td :props="props">
-            {{ props.row.description }}
-          </q-td>
-        </template>
-
-        <template v-slot:body-cell-status="props">
-          <q-td :props="props">
-            <q-chip
-              :color="getStatusColor(props.row.status)"
-              text-color="white"
-              outlined
-            >
-              {{ props.row.status }}
-            </q-chip>
-          </q-td>
-        </template>
-
-        <!-- <template v-slot:body-cell-actions="props">
-          <q-td :props="props">
-            <q-btn icon="edit" color="primary" @click="editBug(props.row)" />
-            <q-btn icon="assignment" color="amber" @click="assignBug(props.row)" />
-            <q-btn icon="schedule" color="blue" @click="setDeadline(props.row)" />
-            <q-btn icon="delete" color="negative" @click="deleteBug(props.row)" />
-          </q-td>
-        </template> -->
-      </q-table>
-
+      <div v-for="bug in reportedBugs" :key="bug.id" class="q-my-md">
+        <q-card>
+          <q-card-section>
+            <div class="text-h6" style="font-weight:bolder;">{{ bug.title }}</div>
+            <div >{{ bug.description }}</div>
+            <div class="q-mt-md">
+            <div  style="display:flex;align-items:center;">
+            <div style="font-weight:bold;">Status: </div>
+              <q-chip :color="getStatusColor(bug.status)" text-color="white" outlined>
+                {{ bug.status }}
+              </q-chip>
+              </div>
+              <div class="q-mt-sm"><span style="font-weight:bold;">Reported By: </span>{{ bug.reportedBy }}</div>
+              <div><span style="font-weight:bold;">Created At: </span>{{ bug.createdAt }}</div>
+              <div><span style="font-weight:bold;">Severity: </span>{{ bug.severity }}</div>
+              <div><span style="font-weight:bold;">Fixed By: </span>{{ bug.assignedTo }}</div>
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+      
       <!-- Edit Bug Dialog -->
       <q-dialog v-model="editBugDialog" persistent>
         <q-card class="edit-bug-dialog">
@@ -130,6 +110,10 @@ export default {
         { name: 'title', label: 'Title', align: 'left', field: 'title', sortable: true },
         { name: 'description', label: 'Description', align: 'left', field: 'description', sortable: true },
         { name: 'status', label: 'Status', align: 'center', field: 'status', sortable: true },
+        { name: 'reportedBy', label: 'Reported By', align: 'center', field: 'reportedBy', sortable: true },
+        { name: 'createdAt', label: 'Created At', align: 'center', field: 'createdAt', sortable: true },
+        { name: 'severity', label: 'Severity', align: 'center', field: 'severity', sortable: true },
+        { name: 'assignedTo', label: 'Fixed By', align: 'center', field: 'assignedTo', sortable: true }
       ],
       statusOptions: [
         { label: 'Reported', value: 'reported' },
@@ -147,7 +131,8 @@ export default {
         description: '',
         status: '',
         reportedBy: '',
-        createdAt: ''
+        createdAt: '',
+        severity: ''
       },
       selectedDeveloper: ''
     };
@@ -158,7 +143,7 @@ export default {
       return bugStore.bugs;
     },
     reportedBugs() {
-      return this.bugs.filter(bug => bug.status === 'resolved' );
+      return this.bugs.filter(bug => bug.status === 'resolved');
     },
     developerOptions() {
       const dataStore = useDataStore();

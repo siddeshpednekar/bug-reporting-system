@@ -46,7 +46,7 @@ export default {
         id: Math.random().toString(36).substr(2, 9), 
         title: this.bugTitle,
         description: this.bugDescription,
-        severity: this.bugSeverity.value,
+        severity: this.bugSeverity.value==null?this.bugSeverity:this.bugSeverity.value,
         reportedBy: this.username, 
         status: 'reported', 
         createdAt: new Date(),
@@ -85,7 +85,7 @@ export default {
 <style scoped>
 .dark {
   color: white; /* Text color */
-  background:url('test.svg') no-repeat center center;/* Background image with overlay */
+  background:black;/* Background image with overlay */
   background-blend-mode: darken; /* Blend mode to overlay the rgba color */
   background-size: 40% 100%; /* Ensures the background image covers the entire element */
   display: flex;
@@ -96,11 +96,10 @@ export default {
 .bug-report-card {
   width: 100%; /* Full width by default */
   max-width: 40rem; /* Max width */
-  background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+ /* Semi-transparent background */
   color: #1a1a1a;
   border-radius: 10px; /* Rounded corners */
-  padding: 20px; /* Padding for spacing */
-  backdrop-filter: blur(10px); /* Frosted glass effect */
+  padding: 20px; /* Padding for spacing */ /* Frosted glass effect */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   border: 1px solid rgba(255, 255, 255, 0.3); /* Optional border for better visibility */
 }

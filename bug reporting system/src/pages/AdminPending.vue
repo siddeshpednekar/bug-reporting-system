@@ -1,47 +1,44 @@
 <template>
   <q-page class="q-pa-md">
     <div class="q-gutter-md">
-      <h1 style="text-align:center;font-weight:bolder;font-size:2rem;">Pending Bug List</h1>
-      <q-table
-        :rows="reportedBugs"
-        :columns="columns"
-        row-key="id"
-        v-model:pagination="pagination"
-        :rows-per-page-options="[5, 10, 20, 50]"
-      >
-        <template v-slot:body-cell-title="props">
-          <q-td :props="props">
-            {{ props.row.title }}
-          </q-td>
-        </template>
-
-        <template v-slot:body-cell-description="props">
-          <q-td :props="props">
-            {{ props.row.description }}
-          </q-td>
-        </template>
-
-        <template v-slot:body-cell-status="props">
-          <q-td :props="props">
-            <q-chip
-              :color="getStatusColor(props.row.status)"
-              text-color="white"
-              outlined
-            >
-              {{ props.row.status }}
-            </q-chip>
-          </q-td>
-        </template>
-
-        <template v-slot:body-cell-actions="props">
-          <q-td :props="props">
-            <q-btn icon="edit" color="primary" @click="editBug(props.row)" />
-            <q-btn icon="assignment" color="amber" @click="assignBug(props.row)" />
-            <q-btn icon="schedule" color="blue" @click="setDeadline(props.row)" />
-            <q-btn icon="delete" color="negative" @click="deleteBug(props.row)" />
-          </q-td>
-        </template>
-      </q-table>
+      <h1 class="page-title">Pending Bug List</h1>
+      <div class="q-gutter-md">
+        <q-card v-for="bug in sortedReportedBugs" :key="bug.id" class="q-pa-md">
+          <q-item>
+            <q-item-section>
+              <q-item-label><strong>Title:</strong> {{ bug.title }}</q-item-label>
+              <q-item-label><strong>Description:</strong> {{ bug.description }}</q-item-label>
+              <q-item-label>
+                <strong>Status:</strong>
+                <q-chip :color="getStatusColor(bug.status)" text-color="black" outlined>
+                  {{ bug.status }}
+                </q-chip>
+              </q-item-label>
+              <q-item-label>
+                <strong>Severity:</strong>
+                <q-chip :color="getSeverityColor(bug.severity)" text-color="white" outlined>
+                  {{ bug.severity }}
+                </q-chip>
+              </q-item-label>
+              <q-item-label><strong>Deadline:</strong> {{ bug.deadline }}</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-btn icon="edit" color="primary" @click="editBug(bug)" class="q-mr-sm">
+                <q-tooltip>Edit</q-tooltip>
+              </q-btn>
+              <q-btn icon="assignment" color="amber" @click="assignBug(bug)" class="q-mr-sm">
+                <q-tooltip>Assign</q-tooltip>
+              </q-btn>
+              <q-btn icon="schedule" color="blue" @click="setDeadline(bug)" class="q-mr-sm">
+                <q-tooltip>Set Deadline</q-tooltip>
+              </q-btn>
+              <q-btn icon="delete" color="negative" @click="deleteBug(bug)" class="q-mr-sm">
+                <q-tooltip>Delete</q-tooltip>
+              </q-btn>
+            </q-item-section>
+          </q-item>
+        </q-card>
+      </div>
 
       <!-- Edit Bug Dialog -->
       <q-dialog v-model="editBugDialog" persistent>
@@ -54,20 +51,8 @@
             <q-form @submit="updateBug">
               <q-input v-model="editedBug.title" label="Title" outlined dense />
               <q-input v-model="editedBug.description" label="Description" outlined dense />
-              <q-select
-                v-model="editedBug.status"
-                :options="statusOptions"
-                label="Status"
-                outlined
-                dense
-              />
-              <q-select
-                v-model="editedBug.severity"
-                :options="severityOptions"
-                label="Severity"
-                outlined
-                dense
-              />
+              <q-select v-model="editedBug.status" :options="statusOptions" label="Status" outlined dense />
+              <q-select v-model="editedBug.severity" :options="severityOptions" label="Severity" outlined dense />
               <q-input v-model="editedBug.reportedBy" label="Reported By" outlined dense />
               <q-date v-model="editedBug.createdAt" label="Created At" outlined dense />
               <div class="q-mt-md q-gutter-md">
@@ -105,13 +90,7 @@
               <q-btn icon="close" flat round @click="assignDeveloperDialog = false" class="q-mr-sm" />
             </div>
             <q-form @submit="updateAssignment">
-              <q-select
-                v-model="selectedDeveloper"
-                :options="developerOptions"
-                label="Select Developer"
-                outlined
-                dense
-              />
+              <q-select v-model="selectedDeveloper" :options="developerOptions" label="Select Developer" outlined dense />
               <div class="q-mt-md q-gutter-md">
                 <q-btn type="submit" color="primary" label="Assign" />
               </div>
@@ -122,6 +101,8 @@
     </div>
   </q-page>
 </template>
+
+
 <script>
 import { useBugStore } from '../stores/BugStore';
 import { useDataStore } from '../stores/userData';
@@ -137,6 +118,8 @@ export default {
         { name: 'title', label: 'Title', align: 'left', field: 'title', sortable: true },
         { name: 'description', label: 'Description', align: 'left', field: 'description', sortable: true },
         { name: 'status', label: 'Status', align: 'center', field: 'status', sortable: true },
+        { name: 'severity', label: 'Severity', align: 'center', field: 'severity', sortable: true },
+        { name: 'deadline', label: 'Deadline', align: 'center', field: 'deadline', sortable: true },
         { name: 'actions', label: 'Actions', align: 'center' }
       ],
       statusOptions: [
@@ -159,6 +142,7 @@ export default {
         title: '',
         description: '',
         status: '',
+        severity: '',
         reportedBy: '',
         createdAt: ''
       },
@@ -173,6 +157,9 @@ export default {
     reportedBugs() {
       return this.bugs.filter(bug => bug.status === 'reported' || bug.status === 'in-progress' );
     },
+    sortedReportedBugs() {
+      return [...this.reportedBugs].sort((a, b) => this.severityValue(b.severity) - this.severityValue(a.severity));
+    },
     developerOptions() {
       const dataStore = useDataStore();
       return dataStore.users
@@ -184,13 +171,37 @@ export default {
     getStatusColor(status) {
       switch (status) {
         case 'reported':
-          return 'red';
+          return 'yellow';
         case 'in-progress':
-          return 'orange';
+          return 'purple';
         case 'resolved':
+          return 'black';
+        default:
+          return 'indigo';
+      }
+    },
+     getSeverityColor(severity) {
+      switch (severity) {
+        case 'low':
           return 'green';
+        case 'medium':
+          return 'orange';
+        case 'high':
+          return 'red';
         default:
           return 'grey';
+      }
+    },
+    severityValue(severity) {
+      switch (severity) {
+        case 'low':
+          return 1;
+        case 'medium':
+          return 2;
+        case 'high':
+          return 3;
+        default:
+          return 0;
       }
     },
     editBug(bug) {
@@ -199,6 +210,9 @@ export default {
     },
     updateBug() {
       const bugStore = useBugStore();
+      let test=this.editedBug.severity;
+      console.log(test)
+      this.editedBug.severity=test.value;
       bugStore.updateBug(this.editedBug);
       console.log(`Bug ${this.editedBug.id} updated`);
       this.editBugDialog = false;
@@ -233,11 +247,23 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .q-header,
 .q-drawer {
   background-color: #1a1a1a;
   color: white;
+}
+
+.page-title {
+  text-align: center;
+  font-weight: bolder;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.q-table {
+  width: 100%;
 }
 
 .q-avatar img {
@@ -268,6 +294,7 @@ export default {
 .q-card-main {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .q-dialog .q-btn {
@@ -293,4 +320,41 @@ export default {
 .q-dialog .q-btn[type="submit"] {
   margin-top: 10px;
 }
+
+@media (max-width: 768px) {
+  .q-table {
+    display: block;
+    overflow-x: auto;
+  }
+  .q-card-main {
+    align-items: flex-start;
+  }
+  .page-title {
+    font-size: 1.5rem;
+  }
+  .q-dialog .q-card-section {
+    padding: 10px;
+  }
+  .q-dialog .q-btn[type="submit"] {
+    width: 95%;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.2rem;
+  }
+  .q-dialog .q-card {
+    margin: 0 auto;
+  }
+  .q-dialog .q-card-section {
+    padding: 5px;
+  }
+}
+<style scoped>
+.q-tooltip {
+  font-size: 0.75rem; /* Adjust font size */
+}
 </style>
+

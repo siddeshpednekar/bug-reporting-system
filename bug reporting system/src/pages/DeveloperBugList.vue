@@ -16,19 +16,40 @@
         />
       </div>
 
-      <div class="bug-list">
-        <q-table
-          :rows="filteredBugs"
-          :columns="columns"
-          row-key="id"
-          flat
-        >
-          <template v-slot:body-cell-actions="props">
-            <q-td :props="props">
-              <q-btn icon="check_circle" color="positive" @click="openStatusDialog(props.row)" />
-            </q-td>
-          </template>
-        </q-table>
+      <div class="bug-list q-gutter-md">
+        <q-card v-for="bug in filteredBugs" :key="bug.id" class="q-pa-md">
+          <q-card-section class="card">
+            <div class="text-h6">{{ bug.title }}</div>
+            <div class="text-subtitle1">{{ bug.description }}</div>
+            <div class="status">
+              <q-chip
+                :color="getStatusColor(bug.status)"
+                text-color="white"
+                class="q-mt-sm"
+              >
+                {{ bug.status }}
+              </q-chip>
+              <q-chip
+                :color="getSeverityColor(bug.severity)"
+                text-color="white"
+                class="q-mt-sm"
+              >
+                {{ bug.severity }}
+              </q-chip>
+              <div class="q-mt-sm">
+                Deadline: {{ bug.deadline }}
+              </div>
+            </div>
+          </q-card-section>
+          <q-card-actions align="right">
+            <q-btn icon="check_circle" color="positive" @click="openStatusDialog(bug)">
+              <q-tooltip>Change Status</q-tooltip>
+            </q-btn>
+            <!-- <q-btn icon="edit" color="primary" @click="editBug(bug)">
+              <q-tooltip>Edit</q-tooltip>
+            </q-btn> -->
+          </q-card-actions>
+        </q-card>
       </div>
 
       <!-- Edit Bug Dialog -->
@@ -74,6 +95,7 @@
     </div>
   </q-page>
 </template>
+
 <script>
 import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
@@ -116,13 +138,31 @@ export default defineComponent({
       return assignedBugs.value;
     });
 
-    const columns = [
-      { name: 'title', label: 'Title', align: 'left', field: 'title', sortable: true },
-      { name: 'description', label: 'Description', align: 'left', field: 'description', sortable: true },
-      { name: 'status', label: 'Status', align: 'left', field: 'status', sortable: true },
-      { name: 'deadline', label: 'Deadline', align: 'left', field: 'deadline', sortable: true }, // Added deadline column
-      { name: 'actions', label: 'Actions', align: 'center' }
-    ];
+    const getStatusColor = (status) => {
+      switch (status) {
+        case 'reported':
+          return 'yellow';
+        case 'in-progress':
+          return 'blue';
+        case 'resolved':
+          return 'green';
+        default:
+          return 'grey';
+      }
+    };
+
+    const getSeverityColor = (severity) => {
+      switch (severity) {
+        case 'low':
+          return 'green';
+        case 'medium':
+          return 'orange';
+        case 'high':
+          return 'red';
+        default:
+          return 'grey';
+      }
+    };
 
     const editBug = (bug) => {
       editedBug.value = { ...bug };
@@ -151,21 +191,20 @@ export default defineComponent({
       statusChangeOptions,
       selectedStatus,
       selectedStatusValue,
-      assignedBugs,
       filteredBugs,
-      columns,
       editBugDialog,
       statusDialog,
       editedBug,
       editBug,
       updateBug,
       openStatusDialog,
-      changeStatus
+      changeStatus,
+      getStatusColor,
+      getSeverityColor
     };
   }
 });
 </script>
-
 
 <style scoped>
 .dark {
@@ -205,6 +244,29 @@ export default defineComponent({
 
 .bug-list {
   width: 100%;
+}
+
+.q-card {
+  max-width: 600px;
+  width: 100%;
+}
+
+.status {
+  display: flex;
+  flex-wrap: wrap;
+  gap:8px;
+  align-items: center;
+}
+
+.q-card-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.q-card-actions {
+  padding: 16px;
+  justify-content: flex-end;
 }
 
 .edit-bug-dialog {
@@ -249,6 +311,7 @@ export default defineComponent({
 .status-dialog .q-btn-primary {
   margin-top: 16px;
 }
+
 /* Media queries for responsiveness */
 @media (min-width: 600px) {
   .developer-content {
@@ -263,5 +326,15 @@ export default defineComponent({
   .intro-text {
     font-size: 1.5rem;
   }
+
+}
+
+@media (max-width: 600px) {
+  .status{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+  }
+
 }
 </style>

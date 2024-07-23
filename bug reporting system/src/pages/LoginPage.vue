@@ -1,11 +1,7 @@
 <template>
-  <q-page class="flex items-center justify-center q-pa-md" style="background-color: #000;">
+  <q-page class="flex items-center justify-center q-pa-md" style="background-color: #000;height:100vh;">
     <div class="row q-col-gutter-md q-mt-xl">
-      <transition name="fade-slide">
-        <div v-if="showContent" class="col-12 col-md-6 flex items-center justify-center">
-          <img src="/test.svg" alt="Login Illustration" class="img full-width" />
-        </div>
-      </transition>
+      
       <transition name="fade-slide">
         <div v-if="showContent" class="col-12 col-md-6 flex flex-center">
           <q-card class="q-pa-md login-card">
@@ -27,6 +23,11 @@
               <q-btn style="background:#6c63ff;border-radius:5rem;color:#fff;" label="Log In" class="full-width q-mb-md" @click="login" :loading="loading" />
             </q-card-section>
           </q-card>
+        </div>
+      </transition>
+      <transition name="fade-slide">
+        <div v-if="showContent" class="col-12 col-md-6 flex items-center justify-center">
+          <img src="/test.svg" alt="Login Illustration" class="img full-width" />
         </div>
       </transition>
     </div>

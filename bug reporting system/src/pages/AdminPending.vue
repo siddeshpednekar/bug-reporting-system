@@ -54,8 +54,7 @@
               <q-select v-model="editedBug.status" :options="statusOptions" label="Status" outlined dense />
               <q-select v-model="editedBug.severity" :options="severityOptions" label="Severity" outlined dense />
               <q-input v-model="editedBug.reportedBy" label="Reported By" outlined dense />
-              <q-date v-model="editedBug.createdAt" label="Created At" outlined dense />
-              <div class="q-mt-md q-gutter-md">
+              <div class="btn">
                 <q-btn type="submit" color="primary" label="Update" />
               </div>
             </q-form>
@@ -73,7 +72,7 @@
             </div>
             <q-form @submit="updateDeadline">
               <q-date v-model="deadline" label="Deadline" outlined dense />
-              <div class="q-mt-md q-gutter-md">
+              <div class="btn">
                 <q-btn type="submit" color="primary" label="Set Deadline" />
               </div>
             </q-form>
@@ -91,7 +90,7 @@
             </div>
             <q-form @submit="updateAssignment">
               <q-select v-model="selectedDeveloper" :options="developerOptions" label="Select Developer" outlined dense />
-              <div class="q-mt-md q-gutter-md">
+              <div class="btn">
                 <q-btn type="submit" color="primary" label="Assign" />
               </div>
             </q-form>
@@ -298,7 +297,6 @@ export default {
 }
 
 .q-dialog .q-btn {
-  min-width: auto;
   padding: 8px;
 }
 
@@ -320,6 +318,11 @@ export default {
 .q-dialog .q-btn[type="submit"] {
   margin-top: 10px;
 }
+.btn{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
 @media (max-width: 768px) {
   .q-table {
@@ -336,7 +339,6 @@ export default {
     padding: 10px;
   }
   .q-dialog .q-btn[type="submit"] {
-    width: 95%;
     margin-top: 10px;
   }
 }

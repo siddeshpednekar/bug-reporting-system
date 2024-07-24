@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { useBugStore } from '../stores/bugStore';
+import { useBugStore } from '../stores/BugStore';
 
 export default {
   data() {

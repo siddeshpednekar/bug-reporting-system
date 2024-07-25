@@ -45,7 +45,7 @@
         </q-item>
         <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple to="/">
           <q-item-section>
-            <q-item-label>Login</q-item-label>
+            <q-item-label>Log out</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>

@@ -87,7 +87,12 @@ export const useBugStore = defineStore({
     updateBug(updatedBug) {
       const index = this.bugs.findIndex(bug => bug.id === updatedBug.id);
       if (index !== -1) {
-        this.bugs.splice(index, 1, updatedBug);
+        // Replace the entire array to ensure reactivity
+        this.bugs = [
+          ...this.bugs.slice(0, index),
+          updatedBug,
+          ...this.bugs.slice(index + 1)
+        ];
       }
     },
 

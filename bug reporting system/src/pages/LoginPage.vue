@@ -54,9 +54,6 @@ export default {
   methods: {
     async login() {
       this.loading = true;
-
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
       console.log("Email:", this.email);
       console.log("Password:", this.password);
 

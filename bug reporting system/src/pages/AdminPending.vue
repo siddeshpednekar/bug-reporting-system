@@ -8,6 +8,7 @@
             <q-item-section>
               <q-item-label><strong>Title:</strong> {{ bug.title }}</q-item-label>
               <q-item-label><strong>Description:</strong> {{ bug.description }}</q-item-label>
+              <q-item-label><strong>Reported by:</strong> {{ bug.reportedBy }}</q-item-label>
               <q-item-label>
                 <strong>Status:</strong>
                 <q-chip :color="getStatusColor(bug.status)" text-color="black" outlined>
@@ -89,7 +90,7 @@
               <q-btn icon="close" flat round @click="assignDeveloperDialog = false" class="q-mr-sm" />
             </div>
             <q-form @submit="updateAssignment">
-              <q-select v-model="selectedDeveloper" :options="developerOptions" label="Select Developer" outlined dense />
+              <q-select v-model="selectedDeveloper" :options="developerOptions" label="Select Developer" :rules="[val => !!val || 'developer is required']" outlined dense />
               <div class="btn">
                 <q-btn type="submit" color="primary" label="Assign" />
               </div>
@@ -102,9 +103,11 @@
 </template>
 
 
+
 <script>
 import { useBugStore } from '../stores/BugStore';
 import { useDataStore } from '../stores/userData';
+import { mapState } from 'pinia';
 
 export default {
   data() {
@@ -149,23 +152,14 @@ export default {
     };
   },
   computed: {
-    bugs() {
-      const bugStore = useBugStore();
-      return bugStore.bugs;
-    },
-    reportedBugs() {
-      return this.bugs.filter(bug => bug.status === 'reported' || bug.status === 'in-progress' );
-    },
-    sortedReportedBugs() {
-      return [...this.reportedBugs].sort((a, b) => this.severityValue(b.severity) - this.severityValue(a.severity));
-    },
-    developerOptions() {
-      const dataStore = useDataStore();
-      return dataStore.users
-        .filter(user => user.designation === 'developer')
-        .map(dev => ({ label: dev.fullname, value: dev.username }));
-    }
+  ...mapState(useBugStore, ['bugs']),
+  reportedBugs() {
+    return this.bugs.filter(bug => bug.status === 'reported' || bug.status === 'in-progress');
   },
+  sortedReportedBugs() {
+    return [...this.reportedBugs].sort((a, b) => this.severityValue(b.severity) - this.severityValue(a.severity));
+  }
+},
   methods: {
     getStatusColor(status) {
       switch (status) {
@@ -207,15 +201,21 @@ export default {
       this.editedBug = { ...bug };
       this.editBugDialog = true;
     },
-    updateBug() {
-      const bugStore = useBugStore();
-      let test=this.editedBug.severity;
-      console.log(test)
-      this.editedBug.severity=test.value;
-      bugStore.updateBug(this.editedBug);
-      console.log(`Bug ${this.editedBug.id} updated`);
-      this.editBugDialog = false;
-    },
+  updateBug() {
+    const bugStore = useBugStore();
+    let status = this.editedBug.status;
+    let severity = this.editedBug.severity;
+    this.editedBug.status = status.value || status;
+    this.editedBug.severity = severity.value || severity;
+
+    bugStore.updateBug(this.editedBug);
+    this.editBugDialog = false;
+    this.$q.notify({
+      message: `Bug ${this.editedBug.id} updated`,
+      color: 'positive',
+      position: 'top',
+    });
+  },
     assignBug(bug) {
       this.selectedBugId = bug.id;
       this.selectedDeveloper = '';
@@ -226,6 +226,11 @@ export default {
       bugStore.assignBug(this.selectedBugId, this.selectedDeveloper.value);
       console.log(`Bug ${this.selectedBugId} assigned to developer ${this.selectedDeveloper.value}`);
       this.assignDeveloperDialog = false;
+      this.$q.notify({
+        message: `Bug ${this.selectedBugId} assigned to developer ${this.selectedDeveloper.value}`,
+        color: 'positive',
+        position: 'top',
+      });
     },
     setDeadline(bug) {
       this.selectedBugId = bug.id;
@@ -237,11 +242,21 @@ export default {
       bugStore.setDeadline(this.selectedBugId, this.deadline);
       console.log(`Deadline set for bug ${this.selectedBugId}: ${this.deadline}`);
       this.setDeadlineDialog = false;
+      this.$q.notify({
+        message: `Deadline set for bug ${this.selectedBugId}: ${this.deadline}`,
+        color: 'positive',
+        position: 'top',
+      });
     },
     deleteBug(bug) {
       const bugStore = useBugStore();
       bugStore.deleteBug(bug.id);
       console.log(`Bug ${bug.id} deleted`);
+      this.$q.notify({
+        message: `Bug ${bug.id} deleted`,
+        color: 'negative',
+        position: 'top',
+      });
     }
   },
 };

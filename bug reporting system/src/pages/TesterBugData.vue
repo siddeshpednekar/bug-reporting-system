@@ -6,8 +6,8 @@
       </q-card-section>
       
       <q-card-section>
-        <q-input outlined v-model="bugTitle" label="Bug Title" class="q-mb-md" dense />
-        <q-input outlined v-model="bugDescription" label="Bug Description" class="q-mb-md" type="textarea" rows="5" dense />
+        <q-input outlined v-model="bugTitle" label="Bug Title" class="q-mb-md" dense :rules="[val => !!val || 'title is required']" />
+        <q-input outlined v-model="bugDescription" label="Bug Description" class="q-mb-md" type="textarea" rows="5" dense :rules="[val => !!val || 'Username is required']"/>
         <q-select 
           outlined 
           v-model="bugSeverity" 
@@ -42,6 +42,8 @@ export default {
   },
   methods: {
     submitBugReport() {
+      if(this.bugTitle && this.bugDescription)
+      {
       const newBug = {
         id: Math.random().toString(36).substr(2, 9), 
         title: this.bugTitle,
@@ -62,8 +64,6 @@ export default {
       console.log(bugStore.getBugs());
 
       // Reset form fields
-      this.bugTitle = '';
-      this.bugDescription = '';
       this.bugSeverity = 'low';
 
       // Show success notification or perform other actions
@@ -74,6 +74,7 @@ export default {
         position: 'top',
         timeout: 3000,
       });
+      }
     },
   },
   mounted(){

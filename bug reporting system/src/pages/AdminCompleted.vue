@@ -211,7 +211,10 @@ export default {
   background-color: #1a1a1a;
   color: white;
 }
-
+.q-page{
+  background:black;
+  color:white;
+}
 .q-avatar img {
   border-radius: 50%;
 }
@@ -228,7 +231,9 @@ export default {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+.q-card{
+  color:black;
+}
 .q-dialog .q-card-section {
   padding: 20px;
 }

@@ -41,7 +41,10 @@
         </div></q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple to="/developer">
+        <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple :to="{
+            path: '/developer',
+            query: { fullname: user.fullname, username: user.username,designation:user.designation },
+          }">
           <q-item-section>
             <q-item-label>Home</q-item-label>
           </q-item-section>
@@ -53,7 +56,7 @@
           v-ripple
           :to="{
             path: '/developer/bugs',
-            query: { fullname: user.fullname, username: user.username },
+            query: { fullname: user.fullname, username: user.username,designation:user.designation },
           }"
         >
           <q-item-section>

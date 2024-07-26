@@ -15,6 +15,13 @@
                   {{ bug.status }}
                 </q-chip>
               </q-item-label>
+              <strong>Progress:</strong>
+              <q-linear-progress
+                :value="getStatusProgress(bug.status)"
+                color="primary"
+                class="q-mt-sm"
+                size="md"
+              />
               <q-item-label>
                 <strong>Severity:</strong>
                 <q-chip :color="getSeverityColor(bug.severity)" text-color="white" outlined>
@@ -200,6 +207,18 @@ export default {
           return 2;
         case 'high':
           return 3;
+        default:
+          return 0;
+      }
+    },
+    getStatusProgress(status) {
+      switch (status) {
+        case 'reported':
+          return 0;
+        case 'in-progress':
+          return 0.5;
+        case 'resolved':
+          return 1;
         default:
           return 0;
       }

@@ -28,22 +28,34 @@
         </div></q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="item" @click="leftDrawerOpen = false"  clickable v-ripple to="/admin">
+        <q-item class="item" @click="leftDrawerOpen = false"  clickable v-ripple :to="{
+            path: '/admin',
+            query: { fullname: user.fullname, username: user.username,designation:user.designation },
+          }">
           <q-item-section>
             <q-item-label>Home</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple to="/admin/completed">
+        <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple :to="{
+            path: '/admin/completed',
+            query: { fullname: user.fullname, username: user.username,designation:user.designation },
+          }">
           <q-item-section>
             <q-item-label>Completed Bugs</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple to="/admin/pending">
+        <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple :to="{
+            path: '/admin/pending',
+            query: { fullname: user.fullname, username: user.username,designation:user.designation },
+          }">
           <q-item-section>
             <q-item-label>Pending bugs</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple to="/">
+        <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple :to="{
+            path: '/',
+            query: { fullname: user.fullname, username: user.username,designation:user.designation },
+          }">
           <q-item-section>
             <q-item-label>Log out</q-item-label>
           </q-item-section>
@@ -68,6 +80,7 @@ export default {
     return {
       leftDrawerOpen: true,
       user: {
+        useranme:'',
         fullname: '',
         designation: ''
       }
@@ -76,6 +89,7 @@ export default {
   mounted() {
     this.user.fullname = this.$route.query.fullname || 'Unknown User';
     this.user.designation = this.$route.query.designation || 'Unknown Designation';
+    this.user.username = this.$route.query.username || "";
   }
 };
 </script>

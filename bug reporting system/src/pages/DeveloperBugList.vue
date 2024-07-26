@@ -11,12 +11,11 @@
           v-model="selectedStatus"
           :options="statusOptions"
           label="Filter by Status"
-          outlined
           dense
         />
       </div>
 
-      <div class="bug-list q-gutter-md">
+      <div class="bug-list">
         <q-card v-for="bug in filteredBugs" :key="bug.id" class="q-pa-md">
           <q-card-section class="card">
             <div class="text-h6">{{ bug.title }}</div>
@@ -208,13 +207,14 @@ export default defineComponent({
 
 <style scoped>
 .dark {
-  background-blend-mode: darken;
+  background:black;
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   padding: 1rem;
+  color:white;
 }
 
 .developer-content {
@@ -238,6 +238,9 @@ export default defineComponent({
 
 .filter-section {
   width: 100%;
+  background-color:white;
+  border-radius:5rem;
+  padding:0 2rem;
   max-width: 600px;
   margin-bottom: 1rem;
 }
@@ -247,7 +250,7 @@ export default defineComponent({
 }
 
 .q-card {
-  max-width: 600px;
+  color:black;
   width: 100%;
 }
 
@@ -315,7 +318,6 @@ export default defineComponent({
 /* Media queries for responsiveness */
 @media (min-width: 600px) {
   .developer-content {
-    align-items: flex-start;
     text-align: left;
   }
 
@@ -325,8 +327,14 @@ export default defineComponent({
 
   .intro-text {
     font-size: 1.5rem;
+    text-align:center;
   }
-
+.card{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
 }
 
 @media (max-width: 600px) {
@@ -336,5 +344,10 @@ export default defineComponent({
     gap:5px;
   }
 
+}
+@media (min-width: 220px) {
+  .intro-title {
+    line-height:2.5rem;
+  }
 }
 </style>

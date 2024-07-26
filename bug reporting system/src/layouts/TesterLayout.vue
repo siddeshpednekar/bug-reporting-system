@@ -30,14 +30,17 @@
         </div></q-item-label>
           </q-item-section>
         </q-item>
-        <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple to="/tester/">
+        <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple :to="{
+            path: '/tester/',
+            query: { fullname: user.fullname, username: user.username,designation:user.designation },
+          }">
           <q-item-section>
             <q-item-label>Home</q-item-label>
           </q-item-section>
         </q-item>
         <q-item clickable @click="leftDrawerOpen = false" v-ripple :to="{
             path: '/tester/report',
-            query: { fullname: user.fullname, username: user.username },
+            query: { fullname: user.fullname, username: user.username ,designation:user.designation},
           }" class="item">
           <q-item-section>
             <q-item-label>Report bug</q-item-label>
@@ -67,6 +70,7 @@ export default {
     return {
       leftDrawerOpen: true,
       user: {
+        useranme:'',
         fullname: '',
         designation: ''
       }

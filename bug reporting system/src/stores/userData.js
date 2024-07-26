@@ -72,6 +72,9 @@ export const useDataStore = defineStore('data', {
   getters: {
     getUserByEmail: (state) => (email) => {
       return state.users.find(user => user.email === email);
+    },
+    getDevelopers: (state) => {
+      return state.users.filter(user => user.designation === 'developer');
     }
   },
   actions: {

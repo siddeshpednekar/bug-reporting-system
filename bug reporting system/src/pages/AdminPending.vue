@@ -160,6 +160,13 @@ export default {
     return [...this.reportedBugs].sort((a, b) => this.severityValue(b.severity) - this.severityValue(a.severity));
   }
 },
+ created() {
+    const userStore = useDataStore();
+    this.developerOptions = userStore.getDevelopers.map(developer => ({
+      label: developer.fullname,
+      value: developer.username
+    }));
+  },
   methods: {
     getStatusColor(status) {
       switch (status) {

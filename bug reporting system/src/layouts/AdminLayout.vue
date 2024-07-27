@@ -53,6 +53,14 @@
           </q-item-section>
         </q-item>
         <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple :to="{
+            path: '/admin/create',
+            query: { fullname: user.fullname, username: user.username,designation:user.designation },
+          }">
+          <q-item-section>
+            <q-item-label>create User</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item class="item" @click="leftDrawerOpen = false" clickable v-ripple :to="{
             path: '/',
             query: { fullname: user.fullname, username: user.username,designation:user.designation },
           }">

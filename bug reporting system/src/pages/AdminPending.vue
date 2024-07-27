@@ -301,7 +301,10 @@ export default {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
-
+.q-page{
+  background:black;
+  color:white;
+}
 .q-table {
   width: 100%;
 }
@@ -322,7 +325,9 @@ export default {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+.q-card{
+  color:black;
+}
 .q-dialog .q-card-section {
   padding: 20px;
 }
